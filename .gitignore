@@ -1,2 +1,6 @@
 .DS_Store
 ._*
+.ruby-version
+Gemfile.lock
+.bundle
+compiled
