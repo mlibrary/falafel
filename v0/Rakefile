@@ -1,0 +1,96 @@
+require 'rubygems'
+require 'json'
+require 'nokogiri'
+require 'thread'
+
+ThreadCount   = 8
+
+starting_time = Time.now
+at_exit do
+  puts Time.at(Time.now - starting_time)
+           .utc
+           .strftime("Running time: \033[36m%H:%M:%S\033[0m")
+end
+
+class Numeric
+  def to_comma_s
+    to_s.reverse
+        .each_char
+        .each_slice(3)
+        .map(&:join)
+        .join(',')
+        .reverse
+  end
+end
+
+def threaded_map(items, key)
+  items.each_slice(items.size / ThreadCount)
+       .map.with_index do |item_section, thread_id|
+         Thread.new { yield item_section, thread_id }
+       end
+       .inject([]) do |memo, thread|
+         thread.join
+         memo.concat(thread[key])
+       end
+end
+
+task :render_icons do
+  colors = JSON.parse(File.read('style/color.json'))
+  icons  = Rake::FileList.new('icon/source/**/*.svg')
+
+  edited = threaded_map(icons, 'edited') do |icon_array, thread_id|
+             Thread.current['edited'] = []
+
+             icon_array.each do |source_icon_path|
+               svg = Nokogiri::XML(File.read(source_icon_path))
+
+               svg.xpath('//comment()').remove
+
+               colors.each do |color_name, color_value|
+                  # Edit each SVG to include the proper color and remove comments...
+
+                 svg.xpath('//*[@fill] | //*[@stroke]').each do |element|
+                   element['fill']   = color_value if element['fill']
+                   element['stroke'] = color_value if element['stroke']
+                 end
+
+                 # Save the new SVG
+
+                 new_file_path = 'compiled/icon/' + (
+                   File.basename(source_icon_path, '.svg') +
+                   "__#{color_name}.svg"
+                 ).gsub(/-/, '_')
+
+                 if Thread.current['edited'].include?(new_file_path)
+                   raise "duplicate icon at #{new_file_path}"
+                 else
+                   Thread.current['edited'] << new_file_path
+                 end
+
+                 if thread_id.zero?
+                   fraction = Thread.current['edited'].size.to_f /
+                              (icon_array.size.to_f * colors.size.to_f)
+
+                   print "\rRendering icons: \033[36m" +
+                         sprintf("%6.2f", fraction * 100) +
+                         "%\033[0m"
+                 end
+
+
+                 File.open(new_file_path, 'w') do |new_icon|
+                   new_icon.truncate(0)
+                   new_icon.write(svg.to_s)
+                 end
+               end
+             end
+           end
+
+  puts "\nDeleting old icons (sometimes this takes a LONG time)"
+  leftovers = Rake::FileList.new('compiled/icon/*.svg') - edited
+
+  unless leftovers.empty?
+    leftovers.each_slice(20) do |section|
+      %x( rm -r #{section.join(' ')} )
+    end
+  end
+end
