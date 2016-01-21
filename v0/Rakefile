@@ -34,8 +34,13 @@ def threaded_map(items, key)
        end
 end
 
+def setup_directory(name)
+  Dir.mkdir(name) unless Dir.exist?(name)
+end
+
 task :init do
-  Dir.mkdir('compiled') unless Dir.exist?('compiled')
+  setup_directory('compiled')
+  setup_directory('compiled/icon')
 end
 
 task :render_icons => [:init] do
