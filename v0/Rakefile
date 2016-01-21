@@ -94,10 +94,11 @@ task :render_icons => [:init] do
              end
            end
 
-  puts "\nDeleting old icons (sometimes this takes a LONG time)"
+  puts "\nChecking for older icons"
   leftovers = Rake::FileList.new('compiled/icon/*.svg') - edited
 
   unless leftovers.empty?
+    puts "\nDeleting old icons (sometimes this takes a LONG time)"
     leftovers.each_slice(20) do |section|
       %x( rm -r #{section.join(' ')} )
     end
