@@ -34,7 +34,11 @@ def threaded_map(items, key)
        end
 end
 
-task :render_icons do
+task :init do
+  Dir.mkdir('compiled') unless Dir.exist?('compiled')
+end
+
+task :render_icons => [:init] do
   colors = JSON.parse(File.read('style/color.json'))
   icons  = Rake::FileList.new('icon/source/**/*.svg')
 
