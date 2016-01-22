@@ -3,13 +3,17 @@ require 'json'
 require 'nokogiri'
 require 'thread'
 require 'pp'
+require 'io/console'
 
 ThreadCount = 8
+STDOUT.echo = false
 
 starting_time = Time.now
 
-at_exit do
-  puts
+at_exit do |success|
+  STDOUT.echo = true
+
+  print "\n"
   puts Time.at(Time.now - starting_time)
            .utc
            .strftime("Running time: \033[36m%H:%M:%S\033[0m")
@@ -47,6 +51,15 @@ def loading_message(message, fraction)
         "%\033[0m"
 end
 
+def start_loading_message(message)
+  print message + ': ...'
+end
+
+def finish_loading_message(message)
+  loading_message message, 1
+  print "\n"
+end
+
 def setup_directory(name)
   Dir.mkdir(name) unless Dir.exist?(name)
 end
@@ -56,74 +69,84 @@ task :init do
   setup_directory('compiled/icon')
 end
 
-task :render_icons => [:init, :clear_icons] do
+task :render_icons => [:init] do
   colors = JSON.parse(File.read('style/color.json'))
   icons  = Rake::FileList.new('icon/source/**/*.svg')
 
-  threaded_map(icons) do |icon_array, thread_id|
-    Thread.new do
-      Thread.current['edited'] = []
+  rendering = 'Rendering icons'
+  deleting  = 'Deleting old icons'
 
-      icon_array.each do |source_icon_path|
-        svg = Nokogiri::XML(File.read(source_icon_path))
+  start_loading_message rendering
 
-        svg.xpath('//comment()').remove
+  edited = threaded_map(icons, 'edited') do |icon_array, thread_id|
+             Thread.new do
+               Thread.current['edited'] = []
 
-        colors.each do |color_name, color_value|
-           # Edit each SVG to include the proper color and remove comments...
+               icon_array.each do |source_icon_path|
+                 svg = Nokogiri::XML(File.new(source_icon_path))
 
-          svg.xpath('//*[@fill] | //*[@stroke]').each do |element|
-            element['fill']   = color_value if element['fill']
-            element['stroke'] = color_value if element['stroke']
-          end
+                 svg.xpath('//comment()').remove
 
-          # Save the new SVG
+                 colors.each do |color_name, color_value|
 
-          new_file_path = 'compiled/icon/' +
-                          File.basename(source_icon_path, '.svg')
-                              .gsub(/-/, '_') +
-                          "__#{color_name}.svg"
+                    # Edit each SVG to include the proper color and remove comments...
 
-          if Thread.current['edited'].include?(new_file_path)
-            raise "duplicate icon at #{new_file_path}"
-          else
-            Thread.current['edited'] << new_file_path
-          end
+                   svg.xpath('//*[@fill] | //*[@stroke]').each do |element|
+                     element['fill']   = color_value if element['fill']
+                     element['stroke'] = color_value if element['stroke']
+                   end
 
-          if thread_id.zero?
-            loading_message(
-              'Rendering icons',
-              Thread.current['edited'].size.to_f /
-                (icon_array.size.to_f * colors.size.to_f)
-            )
-          end
+                   # Save the new SVG
 
-          File.open(new_file_path, 'w+') do |new_icon|
-            new_icon.write(svg.to_s)
-          end
-        end
-      end
-    end
-  end
-end
+                   new_file_path = 'compiled/icon/' +
+                                   File.basename(source_icon_path, '.svg')
+                                       .gsub(/-/, '_') +
+                                   "__#{color_name}.svg"
 
-task :clear_icons => [:init] do
+                   if Thread.current['edited'].include?(new_file_path)
+                     raise "duplicate icon at #{new_file_path}"
+                   else
+                     Thread.current['edited'] << new_file_path
+                   end
+
+                   if thread_id.zero?
+                     loading_message(
+                       rendering,
+                       Thread.current['edited'].size.to_f /
+                         (icon_array.size.to_f * colors.size.to_f)
+                     )
+                   end
+
+                   File.open(new_file_path, 'w+') do |new_icon|
+                     new_icon.write(svg.to_s)
+                   end
+                 end
+               end
+             end
+           end
+
+  finish_loading_message rendering
+
   puts 'Checking for old icons...'
 
-  leftovers = Rake::FileList.new('compiled/icon/*.svg')
+  leftovers = Rake::FileList.new('compiled/icon/*.svg') - edited
 
-  unless leftovers.empty?
+  if leftovers.empty?
+    puts 'No old icons to delete'
+  else
     slice_size = 100
+
+    start_loading_message deleting
 
     leftovers.each_slice(slice_size).with_index do |section, index|
       %x( rm -r #{section.join(' ')} )
 
       loading_message(
-        'Deleting old icons',
+        deleting,
         (index.to_f * slice_size.to_f) / leftovers.size.to_f
       )
     end
 
-    puts
+    finish_loading_message deleting
   end
 end
