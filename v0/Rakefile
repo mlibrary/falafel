@@ -1,43 +1,36 @@
 require 'rubygems'
-require 'json'
 require 'nokogiri'
+
 require 'thread'
-require 'pp'
 require 'io/console'
+require 'yaml'
+require 'pp'
 
 ThreadCount = 8
 STDOUT.echo = false
 
+# Get starting time so we can calculate how long the task took.
 starting_time = Time.now
 
+# When finished, print the running time and make sure echo is turned on again.
 at_exit do |success|
-  STDOUT.echo = true
-
   print "\n"
   puts Time.at(Time.now - starting_time)
            .utc
            .strftime("Running time: \033[36m%H:%M:%S\033[0m")
+
+  STDOUT.echo = true
 end
 
-class Numeric
-  def to_comma_s
-    to_s.reverse
-        .each_char
-        .each_slice(3)
-        .map(&:join)
-        .join(',')
-        .reverse
-  end
-end
-
+# Map across an array using threads to divide the work.
 def threaded_map(items, key = nil)
   items.each_slice(items.size / ThreadCount)
        .map.with_index do |item_section, thread_id|
-         yield item_section, thread_id
+         Thread.new { yield item_section, thread_id }
        end
        .inject([]) do |memo, thread|
-         thread.join
          if key
+           thread.join
            memo.concat(thread[key])
          else
            memo << thread
@@ -49,6 +42,32 @@ def loading_message(message, fraction)
   print "\r#{message}: \033[36m" +
         sprintf("%5.1f", [1, fraction].min * 100) +
         "%\033[0m"
+end
+
+def cleanup(path, *edited)
+  puts 'Checking for old files...'
+
+  leftovers = Rake::FileList.new(path) - edited
+
+  if leftovers.empty?
+    puts 'No old files to delete'
+  else
+    slice_size = 100
+    message    = 'Deleting old icons'
+
+    start_loading_message message
+
+    leftovers.each_slice(slice_size).with_index do |section, index|
+      %x( rm -r #{section.join(' ')} )
+
+      loading_message(
+        message,
+        (index.to_f * slice_size.to_f) / leftovers.size.to_f
+      )
+    end
+
+    finish_loading_message message
+  end
 end
 
 def start_loading_message(message)
@@ -64,89 +83,116 @@ def setup_directory(name)
   Dir.mkdir(name) unless Dir.exist?(name)
 end
 
+def get_config
+  YAML.load(File.read('default-config.yaml'))
+      .tap do |default_config|
+        if File.exist? 'user-config.yaml'
+          default_config.merge!(
+            YAML.load(
+              File.read('user-config.yaml')
+            )
+          )
+        end
+      end
+end
+
+def overwrite(path, content)
+  File.open(path, 'w+') { |file| file.write(content) }
+end
+
+task :default => [:init, :sass, :css, :icons, :docs]
+
 task :init do
   setup_directory('compiled')
   setup_directory('compiled/icon')
+  setup_directory('compiled/sass')
 end
 
-task :render_icons => [:init] do
-  colors = JSON.parse(File.read('style/color.json'))
-  icons  = Rake::FileList.new('icon/source/**/*.svg')
+task :sass => [:init] do
+  puts "Creating scss files..."
 
-  rendering = 'Rendering icons'
-  deleting  = 'Deleting old icons'
+  color_vars = get_config['colors'].inject('') do |memo, (key, value)|
+                 "#{memo}$fa_#{key}: #{value};\n"
+               end
 
-  start_loading_message rendering
+  other_vars = get_config['sass_variables'].inject('') do |memo, (key, value)|
+                 "#{memo}$#{key}: #{value};\n"
+               end
 
-  edited = threaded_map(icons, 'edited') do |icon_array, thread_id|
-             Thread.new do
-               Thread.current['edited'] = []
+  tools_sass = Rake::FileList.new(*get_config['sass_tools_order'])
+                             .inject('') do |memo, path|
+                               memo + File.new(path).read + "\n"
+                             end
 
-               icon_array.each do |source_icon_path|
-                 svg = Nokogiri::XML(File.new(source_icon_path))
+  overwrite('compiled/sass/falafel.scss', color_sass + "\n" + tools_sass)
 
-                 svg.xpath('//comment()').remove
+  cleanup('compiled/scss/*', 'compiled/sass/falafel.scss')
+end
 
-                 colors.each do |color_name, color_value|
+task :css => [:init] do
 
-                    # Edit each SVG to include the proper color and remove comments...
+end
 
-                   svg.xpath('//*[@fill] | //*[@stroke]').each do |element|
-                     element['fill']   = color_value if element['fill']
-                     element['stroke'] = color_value if element['stroke']
-                   end
+task :icons => [:init] do
+  colors  = get_config['colors']
+  message = 'Rendering icons'
 
-                   # Save the new SVG
+  start_loading_message message
 
-                   new_file_path = 'compiled/icon/' +
-                                   File.basename(source_icon_path, '.svg')
-                                       .gsub(/-/, '_') +
-                                   "__#{color_name}.svg"
+  edited = threaded_map(
+                         Rake::FileList.new('icons/source/**/*.svg'),
+                         'edited'
+                       ) do |icon_array, thread_id|
 
-                   if Thread.current['edited'].include?(new_file_path)
-                     raise "duplicate icon at #{new_file_path}"
-                   else
-                     Thread.current['edited'] << new_file_path
-                   end
+             Thread.current['edited'] = []
 
-                   if thread_id.zero?
-                     loading_message(
-                       rendering,
-                       Thread.current['edited'].size.to_f /
-                         (icon_array.size.to_f * colors.size.to_f)
-                     )
-                   end
+             icon_array.each do |source_icon_path|
+               svg = Nokogiri::XML(File.new(source_icon_path))
 
-                   File.open(new_file_path, 'w+') do |new_icon|
-                     new_icon.write(svg.to_s)
-                   end
+               svg.xpath('//comment()').remove
+
+               colors.each do |color_name, color_value|
+
+                  # Edit each SVG to include the proper color and remove comments...
+
+                 svg.xpath('//*[@fill] | //*[@stroke]').each do |element|
+                   element['fill']   = color_value if element['fill']
+                   element['stroke'] = color_value if element['stroke']
+                 end
+
+                 # Save the new SVG
+
+                 new_file_path = 'compiled/icons/' +
+                                 File.basename(source_icon_path, '.svg')
+                                     .gsub(/-/, '_') +
+                                 "__#{color_name}.svg"
+
+                 if Thread.current['edited'].include?(new_file_path)
+                   raise "duplicate icon at #{new_file_path}"
+                 else
+                   Thread.current['edited'] << new_file_path
+                 end
+
+                 if thread_id.zero?
+                   loading_message(
+                     message,
+                     Thread.current['edited'].size.to_f /
+                       (icon_array.size.to_f * colors.size.to_f)
+                   )
+                 end
+
+                 File.open(new_file_path, 'w+') do |new_icon|
+                   new_icon.write(svg.to_s)
                  end
                end
              end
            end
 
-  finish_loading_message rendering
+  finish_loading_message message
 
-  puts 'Checking for old icons...'
+  cleanup('compiled/icons/*', *edited)
+end
 
-  leftovers = Rake::FileList.new('compiled/icon/*.svg') - edited
+task :docs => [:init] do
 
-  if leftovers.empty?
-    puts 'No old icons to delete'
-  else
-    slice_size = 100
-
-    start_loading_message deleting
-
-    leftovers.each_slice(slice_size).with_index do |section, index|
-      %x( rm -r #{section.join(' ')} )
-
-      loading_message(
-        deleting,
-        (index.to_f * slice_size.to_f) / leftovers.size.to_f
-      )
-    end
-
-    finish_loading_message deleting
-  end
 end
