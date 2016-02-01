@@ -1,9 +1,0 @@
-@function fa-default($names...) {
-  $result: $names;
-
-  @each $name in $names {
-    $result: append($result, .fa-#{$name}, comma);
-  }
-
-  @return $result;
-}

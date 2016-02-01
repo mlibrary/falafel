@@ -1,7 +1,7 @@
 @mixin fa_icon($icon_name, $position, $size: 2em, $offset: 0.3em, $source: $fa_icon_root) {
   padding-#{$position}: $size + ($offset * 2);
   content: '';
-  background-image: url(#{source}#{icon_name}.svg);
+  background-image: url(#{source}#{icon_name});
   background-repeat: no-repeat;
 
   background-size: auto $size;

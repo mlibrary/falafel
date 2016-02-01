@@ -37,9 +37,16 @@ colors:
   teal_2: "#14A2BF"
   teal_3: "#E4F3F8"
 
-sass_tools_order:
-  - sass_tools/utility/**/.scss
-  - sass_tools/style/**.scss
+scss_variables:
+  fa_icon_root:
+    "http://www.lib.umich.edu/falafel/compiled/icons/"
 
-sass_variables:
-  fa_icon_root: "http://www.lib.umich.edu/falafel/compiled/icons/"
+scss_tools_order:
+  - scss_tools/utility/**/*.scss
+  - scss_tools/style/**/*.scss
+
+scss_rules_order:
+  style:
+    - scss_rules/reset.scss
+    - scss_rules/style/text.scss
+    - scss_rules/style/buttons.scss
