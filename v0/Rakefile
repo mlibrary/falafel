@@ -9,6 +9,7 @@ require 'yaml'
 require 'pp'
 
 ThreadCount = 8
+SCSSTools   = 'compiled/scss/_falafel.scss'
 STDOUT.echo = false
 
 # Get starting time so we can calculate how long the task took.
@@ -50,11 +51,11 @@ task :scss => [:init] do
                              .map { |path| File.new(path).read }
 
   overwrite(
-    'compiled/scss/falafel.scss',
+    SCSSTools,
     ([color_vars, other_vars] + tools_scss).join("\n")
   )
 
-  cleanup('compiled/scss/*', 'compiled/scss/_falafel.scss')
+  cleanup('compiled/scss/*', SCSSTools)
 end
 
 task :css => [:init, :scss] do
@@ -66,7 +67,7 @@ task :css => [:init, :scss] do
     new_path = "compiled/css/#{name}.css"
     edited << new_path
 
-    scss = File.read("compiled/scss/falafel.scss") <<
+    scss = File.read(SCSSTools) <<
            Rake::FileList.new(*source_paths)
                          .inject('') do |memo, path|
                            memo << File.new(path).read
@@ -116,7 +117,7 @@ task :icons => [:init] do
 
                  # Save the new SVG
 
-                 new_file_path = 'compiled/icons/' +
+                 new_file_path = 'compiled/icon/' +
                                  File.basename(source_icon_path, '.svg')
                                      .gsub(/-/, '_') +
                                  "__#{color_name}.svg"

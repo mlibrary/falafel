@@ -39,7 +39,9 @@ colors:
 
 scss_variables:
   fa_icon_root:
-    "http://www.lib.umich.edu/falafel/compiled/icons/"
+    "/falafel/compiled/icons/"
+  fa_font_root:
+    "/falafel/compiled/fonts/"
 
 scss_tools_order:
   - scss_tools/utility/**/*.scss
@@ -47,6 +49,7 @@ scss_tools_order:
 
 scss_rules_order:
   style:
-    - scss_rules/reset.scss
-    - scss_rules/style/text.scss
-    - scss_rules/style/buttons.scss
+    - scss_rules/_reset.scss
+    - scss_rules/style/_font.scss
+    - scss_rules/style/_text.scss
+    - scss_rules/style/_buttons.scss
