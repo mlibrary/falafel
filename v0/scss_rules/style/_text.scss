@@ -48,7 +48,7 @@ article * {
 }
 
 .fa-long-article {
-  p:first-of-type {
+  p:not([class]):first-of-type {
     color: $fa_main_3;
   }
 }
