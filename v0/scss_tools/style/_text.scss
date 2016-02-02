@@ -1,0 +1,29 @@
+@mixin fa_quote_like($font_size:     1.2em,
+                     $icon:          'quote__white.svg',
+                     $fill:          $fa_main_3,
+                     $line_height:   1.5,
+                     $icon_size:     2em,
+                     $outer_padding: 0,
+                     $inner_padding: 1em,
+                     $downshift:     true,
+                     $icon_root:     $fa_icon_root,
+                     $element:       before) {
+
+  @include fa_body_font;
+  @include fa_pseudo_icon(
+             $position:      left,
+             $icon:          'quote__white.svg',
+             $fill:          $fill,
+             $size:          $icon_size,
+             $icon_size:     $icon_size * (3/5),
+             $outer_padding: $outer_padding,
+             $inner_padding: $inner_padding,
+             $downshift:     $downshift,
+             $icon_root:     $icon_root,
+             $element:       $element
+           );
+
+  font-size: $font_size;
+  color: $fa_grey_3;
+  line-height: $line_height;
+}

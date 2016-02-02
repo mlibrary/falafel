@@ -3,7 +3,8 @@
                  $border:    transparent,
                  $color:     #FFF,
                  $position:  left,
-                 $icon_root: $fa_icon_root) {
+                 $icon_root: $fa_icon_root,
+                 $icon_size: 1.5em) {
 
   @include fa_main_font;
 
@@ -28,6 +29,11 @@
   user-select: none;
 
   @if $icon {
-    @include fa_background_icon($icon, $position, $source: $icon_root);
+    @include fa_background_icon(
+      $icon:      $icon,
+      $position:  $position,
+      $size:      $icon_size,
+      $icon_root: $icon_root
+    );
   }
 }

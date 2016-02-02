@@ -1,20 +1,63 @@
 @mixin fa_background_icon($icon,
-                          $position,
-                          $size:      1.5em,
-                          $padding:   0.4em,
-                          $offset:    2,
-                          $icon_root: $fa_icon_root) {
+                          $position:      left,
+                          $size:          1.5em,
+                          $outer_padding: 0.4em,
+                          $inner_padding: 0.4em,
+                          $icon_root:     $fa_icon_root) {
 
-  padding-#{$position}: $size + ($padding * $offset);
-  content: '';
+  @if $position == left  or
+      $position == right or
+      $position == top   or
+      $position == bottom {
+    padding-#{$position}: $size + $outer_padding + $inner_padding;
+  }
+
   background-image: url(#{$icon_root}#{$icon});
   background-repeat: no-repeat;
-
   background-size: auto $size;
 
   @if $position == left or $position == right {
-    background-position: $position $padding center;
+    background-position: $position $outer_padding center;
   } @else if $position == top or $position == bottom {
-    background-position: center 0 $position $padding;
+    background-position: center 0 $position $outer_padding;
+  } @else {
+    background-position: center center;
+  }
+}
+
+@mixin fa_pseudo_icon($icon,
+                      $position:      left,
+                      $fill:          $fa_grey_4,
+                      $size:          2em,
+                      $icon_size:     1.2em,
+                      $outer_padding: 0,
+                      $inner_padding: 1em,
+                      $downshift:     true,
+                      $icon_root:     $fa_icon_root,
+                      $element:       before) {
+
+  @if $downshift { padding-top: calc((#{$size} - #{$icon_size}) / 3); }
+
+  padding-#{$position}: $size + $outer_padding + $inner_padding;
+  min-height: $size;
+  position: relative;
+
+  &:#{$element} {
+    @include fa_background_icon(
+               $position:  center,
+               $icon:      $icon,
+               $icon_root: $icon_root,
+               $size:      $icon_size
+             );
+
+    content: '';
+    display: block;
+    background-color: $fill;
+    width: $size;
+    height: $size;
+    border-radius: $size / 2;
+    position: absolute;
+    #{$position}: 0;
+    top: 0;
   }
 }

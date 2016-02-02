@@ -47,6 +47,26 @@ article * {
   @include fa_body_font;
 }
 
+.fa-long-article {
+  p:first-of-type {
+    color: $fa_main_3;
+  }
+}
+
+blockquote,
+.fa-quote {
+  @include fa_quote_like;
+}
+
+.fa-with-small-quotes blockquote,
+.fa-small-quote {
+  @include fa_quote_like(
+             $font_size: 1.1em,
+             $icon_size: 1.5em,
+             $inner_padding: 0.5em
+           );
+}
+
 a,
 .fa-a {
 
