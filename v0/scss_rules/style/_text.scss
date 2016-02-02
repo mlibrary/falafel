@@ -67,6 +67,37 @@ blockquote,
            );
 }
 
+.fa-info-box {
+  @include fa_info_box;
+}
+
+.fa-success-box {
+  @include fa_info_box(
+             $icon:   'check_circle__green_2.svg',
+             $fill:   $fa_green_3,
+             $color:  $fa_green_1,
+             $border: $fa_green_2
+           );
+}
+
+.fa-warn-box {
+  @include fa_info_box(
+             $icon:   'alert_circle__orange_2.svg',
+             $fill:   $fa_orange_3,
+             $color:  $fa_orange_1,
+             $border: $fa_orange_2
+           );
+}
+
+.fa-error-box {
+  @include fa_info_box(
+             $icon:   'cancel__red_2.svg',
+             $fill:   $fa_red_3,
+             $color:  $fa_red_1,
+             $border: $fa_red_2
+           );
+}
+
 a,
 .fa-a {
 

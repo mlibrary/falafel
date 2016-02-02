@@ -1,9 +1,10 @@
 @mixin fa_background_icon($icon,
-                          $position:      left,
-                          $size:          1.5em,
-                          $outer_padding: 0.4em,
-                          $inner_padding: 0.4em,
-                          $icon_root:     $fa_icon_root) {
+                          $position:       left,
+                          $other_position: center,
+                          $size:           1.5em,
+                          $outer_padding:  0.4em,
+                          $inner_padding:  0.4em,
+                          $icon_root:      $fa_icon_root) {
 
   @if $position == left  or
       $position == right or
@@ -17,9 +18,9 @@
   background-size: auto $size;
 
   @if $position == left or $position == right {
-    background-position: $position $outer_padding center;
+    background-position: $position $outer_padding $other_position;
   } @else if $position == top or $position == bottom {
-    background-position: center 0 $position $outer_padding;
+    background-position: $other_position 0 $position $outer_padding;
   } @else {
     background-position: center center;
   }

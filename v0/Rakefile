@@ -9,7 +9,7 @@ require 'yaml'
 require 'pp'
 
 ThreadCount = 8
-SCSSTools   = 'compiled/scss/_falafel.scss'
+SCSSToolsLocation = 'compiled/scss/_falafel.scss'
 STDOUT.echo = false
 
 # Get starting time so we can calculate how long the task took.
@@ -39,9 +39,11 @@ end
 task :scss => [:init] do
   puts "Creating scss files..."
 
-  color_vars = get_config['colors'].inject('') do |memo, (key, value)|
-                 "#{memo}$fa_#{key}: #{value};\n"
+  colors     = get_config['colors'].inject([]) do |memo, (key, value)|
+                 memo << "fa_#{key}: #{value}"
                end
+  color_vars = colors.map { |string| "$#{string};" }.join("\n")
+  color_map  = "$fa_colors: ( #{colors.join(',')} );"
 
   other_vars = get_config['scss_variables'].inject('') do |memo, (key, value)|
                  "#{memo}$#{key}: '#{value}';\n"
@@ -51,11 +53,11 @@ task :scss => [:init] do
                              .map { |path| File.new(path).read }
 
   overwrite(
-    SCSSTools,
-    ([color_vars, other_vars] + tools_scss).join("\n")
+    SCSSToolsLocation,
+    ([color_vars, color_map, other_vars] + tools_scss).join("\n")
   )
 
-  cleanup('compiled/scss/*', SCSSTools)
+  cleanup('compiled/scss/*', SCSSToolsLocation)
 end
 
 task :css => [:init, :scss] do
@@ -67,7 +69,7 @@ task :css => [:init, :scss] do
     new_path = "compiled/css/#{name}.css"
     edited << new_path
 
-    scss = File.read(SCSSTools) <<
+    scss = File.read(SCSSToolsLocation) <<
            Rake::FileList.new(*source_paths)
                          .inject('') do |memo, path|
                            memo << File.new(path).read

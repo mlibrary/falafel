@@ -27,3 +27,30 @@
   color: $fa_grey_3;
   line-height: $line_height;
 }
+
+@mixin fa_info_box($icon:      'flag__teal_2.svg',
+                   $color:     $fa_teal_1,
+                   $border:    $fa_teal_2,
+                   $fill:      $fa_teal_3,
+                   $icon_root: $fa_icon_root) {
+
+  padding: 0.5em 2em 0.6em;
+
+  @include fa_main_font;
+  @include fa_background_icon(
+             $icon:           $icon,
+             $position:       left,
+             $other_position: top 0.4em,
+             $size:           1.3em,
+             $outer_padding:  0.6em,
+             $inner_padding:  0.5em,
+             $icon_root:      $icon_root
+           );
+
+  font-size: 0.9em;
+  line-height: 1.1;
+  color: $color;
+  background-color: $fill;
+  border: 2px solid $border;
+  border-radius: 2px;
+}
