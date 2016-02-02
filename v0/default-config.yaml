@@ -39,9 +39,9 @@ colors:
 
 scss_variables:
   fa_icon_root:
-    "/falafel/compiled/icons/"
+    "http://fultonis.www.lib.umich.edu/falafel/v0/compiled/icons/"
   fa_font_root:
-    "/falafel/compiled/fonts/"
+    "http://fultonis.www.lib.umich.edu/falafel/v0/fonts/"
 
 scss_tools_order:
   - scss_tools/utility/**/*.scss

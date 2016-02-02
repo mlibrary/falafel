@@ -31,7 +31,7 @@ task :init do
   puts "Initializing directories..."
 
   setup_directory('compiled')
-  setup_directory('compiled/icon')
+  setup_directory('compiled/icons')
   setup_directory('compiled/scss')
   setup_directory('compiled/css')
 end
@@ -85,7 +85,7 @@ task :css => [:init, :scss] do
     )
   end
 
-  cleanup('compiled/css/*', edited)
+  cleanup('compiled/css/*', *edited)
 end
 
 task :icons => [:init] do
@@ -117,7 +117,7 @@ task :icons => [:init] do
 
                  # Save the new SVG
 
-                 new_file_path = 'compiled/icon/' +
+                 new_file_path = 'compiled/icons/' +
                                  File.basename(source_icon_path, '.svg')
                                      .gsub(/-/, '_') +
                                  "__#{color_name}.svg"
