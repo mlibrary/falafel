@@ -1,14 +1,20 @@
-@mixin fa_icon($icon_name, $position, $size: 2em, $offset: 0.3em, $source: $fa_icon_root) {
-  padding-#{$position}: $size + ($offset * 2);
+@mixin fa_background_icon($icon,
+                          $position,
+                          $size:      1.5em,
+                          $padding:   0.4em,
+                          $offset:    2,
+                          $icon_root: $fa_icon_root) {
+
+  padding-#{$position}: $size + ($padding * $offset);
   content: '';
-  background-image: url(#{source}#{icon_name});
+  background-image: url(#{$icon_root}#{$icon});
   background-repeat: no-repeat;
 
   background-size: auto $size;
 
   @if $position == left or $position == right {
-    background-position: $position $offset center 0;
+    background-position: $position $padding center;
   } @else if $position == top or $position == bottom {
-    background-position: center 0 $position $offset;
+    background-position: center 0 $position $padding;
   }
 }

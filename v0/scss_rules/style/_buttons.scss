@@ -1,43 +1,51 @@
 button,
-input[type='button'],
-.fa-button {
+input[type='button'] {
   @include fa_button;
 }
 
 button[type='submit'],
-input[type='submit'],
-.fa-button-submit {
+input[type='submit'] {
+  @include fa_button($icon: 'check_circle__white.svg', $fill: $fa_green_2);
 }
 
-.fa-button-submit {
+button, input, a {
+  &.fa-button {
+    @include fa_button;
+  }
 
+  &.fa-submit {
+    @include fa_button($icon: 'check_circle__white.svg', $fill: $fa_green_2);
+  }
+
+  &.fa-confirm {
+    @include fa_button($icon: 'check__white.svg');
+  }
+
+  &.fa-delete {
+    @include fa_button($icon: 'close__white.svg', $fill: $fa_red_2);
+  }
+
+  &.fa-cancel {
+    @include fa_button($icon: 'close__grey_1.svg', $fill: $fa_grey_5, $color: $fa_grey_1);
+  }
+
+  &.fa-search {
+    @include fa_button($icon: 'magnify__white.svg');
+  }
+
+  &.fa-search-grey {
+    @include fa_button($icon: 'magnify__white.svg', $fill: $fa_grey_2);
+  }
+
+  &.fa-more {
+    @include fa_button($icon: 'chevron_down__grey_1.svg', $fill: $fa_grey_5, $color: $fa_grey_1);
+  }
+
+  &.fa-less {
+    @include fa_button($icon: 'chevron_up__grey_1.svg', $fill: $fa_grey_5, $color: $fa_grey_1);
+  }
+
+  &.fa-download {
+    @include fa_button($icon: 'download__white.svg', $fill: $fa_green_2);
+  }
 }
-
-.fa-button-confirm {
-
-}
-
-.fa-button-cancel {
-
-}
-
-.fa-button-cancel-grey {
-
-}
-
-.fa-button-search {
-
-}
-
-.fa-button-search-grey {
-
-}
-
-.fa-button-more {
-
-}
-
-.fa-button-less {
-
-}
-

@@ -1,0 +1,8 @@
+main, section, footer, header, article, aside, nav, div,
+p, hr, ol, dl, ul, address, blockquote, figcaption, figure, figcaption, pre,
+canvas, fieldset, form, video,
+h1, h2, h3, h4, h5, h6 {
+  + * {
+    margin-top: 1em;
+  }
+}

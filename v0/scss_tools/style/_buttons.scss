@@ -5,17 +5,15 @@
                  $position:  left,
                  $icon_root: $fa_icon_root) {
 
-  @if $icon {
-    @include fa_icon($icon, $position, $source: $icon_root);
-  }
+  @include fa_main_font;
 
   display: inline-block;
-  padding: 1em;
+  padding: 0.35em 0.85em;
   background-color: $fill;
   border: 1px solid $border;
-  border-radius: 0.3em;
+  border-radius: 0.1em;
 
-  font-size: 1.2em;
+  font-size: 0.85em;
   font-weight: normal;
   color: $color;
   line-height: 1.5;
@@ -28,4 +26,8 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+
+  @if $icon {
+    @include fa_background_icon($icon, $position, $source: $icon_root);
+  }
 }
