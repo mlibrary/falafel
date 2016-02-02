@@ -1,7 +1,7 @@
 // Create a full set (bold, italic, semibold, etc) of @font_face rules
 // for a typeface.
 
-@mixin fa_fontface($family, $file_name, $styles) {
+@mixin fa_fontface($family, $file_name, $styles, $font_root: $fa_font_root) {
   @each $style_name in $styles {
     $style:  normal;
     $weight: 400;
@@ -35,7 +35,7 @@
       $weight: 800;
     }
 
-    $location: '#{$fa_font_root}#{$file_name}-#{$style_name}';
+    $location: '#{$font_root}#{$file_name}/#{$file_name}-#{$style_name}';
 
     @font-face {
       font-family: $family;
@@ -48,4 +48,34 @@
            url('#{$location}.svg#webfont') format('svg');
     }
   }
+}
+
+@mixin fa_main_font {
+  font-family: "Helvetica Neue",
+               Helvetica,
+               "Liberation Sans",
+               "DejaVu Sans Condensed",
+               "Nimbus Sans L",
+               Arial,
+               sans-serif;
+}
+
+@mixin fa_body_font {
+  font-family: "PT Serif",
+               "DejaVu Serif",
+               "Bitstream Vera Serif",
+               "Liberation Serif",
+               Georgia,
+               serif;
+}
+
+@mixin fa_header_font {
+  font-family: "Open Sans",
+               "Helvetica Neue",
+               Helvetica,
+               "Liberation Sans",
+               "DejaVu Sans Condensed",
+               "Nimbus Sans L",
+               Arial,
+               sans-serif;
 }

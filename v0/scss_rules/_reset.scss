@@ -7,6 +7,7 @@
 // Modified by Colin Fulton
 // January 2016
 
+*,
 html, body, div, span, object, iframe,
 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
 abbr, address, cite, code,
@@ -19,6 +20,8 @@ table, caption, tbody, tfoot, thead, tr, th, td,
 article, aside, canvas, details, figcaption, figure,
 footer, header, hgroup, menu, nav, section, summary,
 time, mark, audio, video {
+  @include fa_main_font;
+
   margin: 0;
   padding: 0;
   border: 0;
@@ -75,7 +78,7 @@ mark {
 }
 
 del {
-  text-decoration:  line-through;
+  text-decoration: line-through;
 }
 
 abbr[title], dfn[title] {
