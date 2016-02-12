@@ -70,6 +70,7 @@
 }
 
 @mixin fa_header_font {
+  line-height: 1.2em;
   font-family: "Open Sans",
                "Helvetica Neue",
                Helvetica,
@@ -78,4 +79,13 @@
                "Nimbus Sans L",
                Arial,
                sans-serif;
+}
+
+@mixin fa_small_font {
+  font-family: "PT Caption",
+               "DejaVu Serif",
+               "Bitstream Vera Serif",
+               "Liberation Serif",
+               Georgia,
+               serif;
 }

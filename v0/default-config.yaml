@@ -1,47 +1,109 @@
 ---
 colors:
-  um_maize: "#FFCB05"
-  um_blue:  "#00274C"
+  um_maize:
+    color:    "#FFCB05"
+    contrast: "grey_1"
+  um_blue:
+    color:    "#00274C"
+    contrast: "white"
 
-  black: "#000000"
-  white: "#FFFFFF"
+  black:
+    color:    "#000000"
+    contrast: "grey_7"
+  white:
+    color:    "#FFFFFF"
+    contrast: "grey_1"
 
-  grey_1: "#333333"
-  grey_2: "#4E4E4E"
-  grey_3: "#6E6E6E"
-  grey_4: "#CCCCCC"
-  grey_5: "#E5E5E5"
-  grey_6: "#F2F2F2"
-  grey_7: "#FAFAFA"
+  grey_1:
+    color:    "#333333"
+    contrast: "white"
+  grey_2:
+    color:    "#4E4E4E"
+    contrast: "white"
+  grey_3:
+    color:    "#6E6E6E"
+    contrast: "white"
+  grey_4:
+    color:    "#CCCCCC"
+    contrast: "grey_1"
+  grey_5:
+    color:    "#E5E5E5"
+    contrast: "grey_1"
+  grey_6:
+    color:    "#F2F2F2"
+    contrast: "grey_1"
+  grey_7:
+    color:    "#FAFAFA"
+    contrast: "grey_1"
 
-  main_1: "#00274C"
-  main_2: "#0C5292"
-  main_3: "#126DC1"
-  main_4: "#CCE6FF"
-  main_5: "#E6F3FF"
-  main_6: "#F2F9FF"
+  main_1:
+    color:    "#00274C"
+    contrast: "white"
+  main_2:
+    color:    "#0C5292"
+    contrast: "white"
+  main_3:
+    color:    "#126DC1"
+    contrast: "white"
+  main_4:
+    color:    "#CCE6FF"
+    contrast: "main_1"
+  main_5:
+    color:    "#E6F3FF"
+    contrast: "main_1"
+  main_6:
+    color:    "#F2F9FF"
+    contrast: "main_1"
 
-  green_1: "#057C42"
-  green_2: "#05A657"
-  green_3: "#E2F4EB"
+  green_1:
+    color:    "#057C42"
+    contrast: "white"
+  green_2:
+    color:    "#05A657"
+    contrast: "black"
+  green_3:
+    color:    "#E2F4EB"
+    contrast: "green_1"
 
-  red_1: "#C53B26"
-  red_2: "#ED5D47"
-  red_3: "#FFEAE7"
+  red_1:
+    color:    "#C53B26"
+    contrast: "white"
+  red_2:
+    color:    "#ED5D47"
+    contrast: "black"
+  red_3:
+    color:    "#FFEAE7"
+    contrast: "red_1"
 
-  orange_1: "#AA6500"
-  orange_2: "#E77504"
-  orange_3: "#FFEEDD"
+  orange_1:
+    color:    "#AA6500"
+    contrast: "white"
+  orange_2:
+    color:    "#E77504"
+    contrast: "black"
+  orange_3:
+    color:    "#FFEEDD"
+    contrast: "orange_1"
 
-  teal_1: "#10788E"
-  teal_2: "#14A2BF"
-  teal_3: "#E4F3F8"
+  teal_1:
+    color:    "#10788E"
+    contrast: "white"
+  teal_2:
+    color:    "#14A2BF"
+    contrast: "black"
+  teal_3:
+    color:    "#E4F3F8"
+    contrast: "teal_1"
 
 scss_variables:
   fa_icon_root:
     "http://fultonis.www.lib.umich.edu/falafel/v0/compiled/icons/"
   fa_font_root:
     "http://fultonis.www.lib.umich.edu/falafel/v0/fonts/"
+
+  fa_width_large: 75em
+  fa_width_small: 55em
+  fa_width_tiny:  35em
 
 scss_tools_order:
   - scss_tools/utility/**/*.scss

@@ -28,7 +28,7 @@ end
 task :default => [:init, :scss, :css, :icons, :docs]
 
 task :init do
-  puts "Initializing directories..."
+  puts "Initializing directories ..."
 
   setup_directory('compiled')
   setup_directory('compiled/icons')
@@ -37,24 +37,12 @@ task :init do
 end
 
 task :scss => [:init] do
-  puts "Creating scss files..."
-
-  colors     = get_config['colors'].inject([]) do |memo, (key, value)|
-                 memo << "fa_#{key}: #{value}"
-               end
-  color_vars = colors.map { |string| "$#{string};" }.join("\n")
-  color_map  = "$fa_colors: ( #{colors.join(',')} );"
-
-  other_vars = get_config['scss_variables'].inject('') do |memo, (key, value)|
-                 "#{memo}$#{key}: '#{value}';\n"
-               end
-
-  tools_scss = Rake::FileList.new(*get_config['scss_tools_order'])
-                             .map { |path| File.new(path).read }
+  puts "Creating scss files ..."
 
   overwrite(
     SCSSToolsLocation,
-    ([color_vars, color_map, other_vars] + tools_scss).join("\n")
+    dynamic_scss + tools_scss_list.map { |path| File.new(path).read }
+                                 .join("\n")
   )
 
   cleanup('compiled/scss/*', SCSSToolsLocation)
@@ -69,16 +57,17 @@ task :css => [:init, :scss] do
     new_path = "compiled/css/#{name}.css"
     edited << new_path
 
-    scss = File.read(SCSSToolsLocation) <<
+    scss = dynamic_scss +
+           tools_scss_list.map { |path| "\n@import '#{path}';" }.join +
            Rake::FileList.new(*source_paths)
-                         .inject('') do |memo, path|
-                           memo << File.new(path).read
-                         end
+                         .map { |path| "\n@import '#{path}';" }
+                         .join
 
     options = {
-                syntax: :scss,
-                style:  :compressed,
-                cache:  false
+                syntax:     :scss,
+                style:      :compressed,
+                cache:      false,
+                load_paths: [File.dirname(__FILE__)]
               }
 
     overwrite(
@@ -108,13 +97,13 @@ task :icons => [:init] do
 
                svg.xpath('//comment()').remove
 
-               colors.each do |color_name, color_value|
+               colors.each do |color_name, color_data|
 
                  # Edit each SVG to include the proper color and remove comments...
 
                  svg.xpath('//*[@fill] | //*[@stroke]').each do |element|
-                   element['fill']   = color_value if element['fill']
-                   element['stroke'] = color_value if element['stroke']
+                   element['fill']   = color_data['color'] if element['fill']
+                   element['stroke'] = color_data['color'] if element['stroke']
                  end
 
                  # Save the new SVG
@@ -181,7 +170,7 @@ def loading_message(message, fraction)
 end
 
 def cleanup(path, *edited)
-  puts 'Checking for old files...'
+  puts 'Checking for old files ...'
 
   leftovers = Rake::FileList.new(path) - edited
 
@@ -234,4 +223,43 @@ end
 
 def overwrite(path, content)
   File.open(path, 'w+') { |file| file.write(content) }
+end
+
+def color_by_name(name)
+  get_config['colors'][name]['color']
+end
+
+def dynamic_scss
+  color_vars = get_config['colors'].inject('') do |memo, (name, hash)|
+                 memo << "$fa-#{name.gsub(/_/, '-')}: #{hash['color']};\n"
+
+                 if hash['contrast']
+                   memo << "$fa-contrast-#{name.gsub(/_/, '-')}: #{color_by_name(hash['contrast'])};\n"
+                 end
+
+                 memo
+               end
+
+  color_map  = "$fa_colors: (\n" +
+                 get_config['colors'].inject('') do |memo, (name, hash)|
+                   memo << "  '#{name}': ( color: #{hash['color']}"
+
+                   if hash['contrast']
+                     memo << ", contrast_name: '#{hash['contrast']}'"
+                     memo << ", contrast_color: #{color_by_name(hash['contrast'])}"
+                   end
+
+                   memo << " ),\n"
+                 end +
+               ");\n"
+
+  other_vars = get_config['scss_variables'].inject('') do |memo, (key, value)|
+                 "#{memo}$#{key}: '#{value}';\n"
+               end
+
+  color_vars + color_map + other_vars
+end
+
+def tools_scss_list
+  Rake::FileList.new(*get_config['scss_tools_order'])
 end

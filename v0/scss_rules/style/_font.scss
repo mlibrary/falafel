@@ -9,3 +9,10 @@
            opensans,
            (semibold, light, regular)
          );
+
+
+@include fa_fontface(
+           'PT Caption',
+           ptcaption,
+           (italic, regular)
+         );

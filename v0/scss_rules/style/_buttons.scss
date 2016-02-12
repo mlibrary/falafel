@@ -5,47 +5,79 @@ input[type='button'] {
 
 button[type='submit'],
 input[type='submit'] {
-  @include fa_button($icon: 'check_circle__white.svg', $fill: $fa_green_2);
+  @include fa_button(
+    $icon_name: 'check_circle',
+    $fill_name: 'green_1'
+  );
 }
 
 button, input, a {
   &.fa-button {
     @include fa_button;
+
+    @each $name in $fa_color_names {
+      @if fa_get_contrast($name) {
+        &-#{$name} {
+            @include fa_button($fill_name: $name);
+        }
+      }
+    }
   }
 
   &.fa-submit {
-    @include fa_button($icon: 'check_circle__white.svg', $fill: $fa_green_2);
+    @include fa_button(
+      $icon_name: 'check_circle',
+      $fill_name: 'green_1'
+    );
   }
 
   &.fa-confirm {
-    @include fa_button($icon: 'check__white.svg');
+    @include fa_button($icon_name: 'check');
   }
 
   &.fa-delete {
-    @include fa_button($icon: 'close__white.svg', $fill: $fa_red_2);
+    @include fa_button(
+      $icon_name: 'close',
+      $fill_name: 'red_1'
+    );
   }
 
   &.fa-cancel {
-    @include fa_button($icon: 'close__grey_1.svg', $fill: $fa_grey_5, $color: $fa_grey_1);
+    @include fa_button(
+      $icon_name: 'close',
+      $fill_name: 'grey_5'
+    );
   }
 
   &.fa-search {
-    @include fa_button($icon: 'magnify__white.svg');
+    @include fa_button($icon_name: 'magnify');
   }
 
   &.fa-search-grey {
-    @include fa_button($icon: 'magnify__white.svg', $fill: $fa_grey_2);
+    @include fa_button(
+      $icon_name: 'magnify',
+      $fill_name: 'grey_2'
+    );
   }
 
   &.fa-more {
-    @include fa_button($icon: 'chevron_down__grey_1.svg', $fill: $fa_grey_5, $color: $fa_grey_1);
+    @include fa_button(
+      $icon_name: 'chevron_up',
+      $fill_name: 'grey_5'
+    );
   }
 
   &.fa-less {
-    @include fa_button($icon: 'chevron_up__grey_1.svg', $fill: $fa_grey_5, $color: $fa_grey_1);
+    @include fa_button(
+      $icon_name: 'chevron_down',
+      $fill_name: 'grey_5'
+    );
   }
 
   &.fa-download {
-    @include fa_button($icon: 'download__white.svg', $fill: $fa_green_2);
+    @include fa_button(
+      $icon_name: 'download',
+      $fill_name: 'green_1'
+    );
   }
 }

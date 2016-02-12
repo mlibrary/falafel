@@ -1,49 +1,28 @@
-body {
+html {
   font-size: 1.25em;
 }
 
-h1, h2, h3, h4, h5, h6 {
+.fa-screen-reader-text {
+  @include fa_screen_reader_text;
+}
+
+h1, h2, h3, h4, h5, h6,
+.fa-h1, .fa-h2, .fa-h3, .fa-h4, .fa-h5, .fa-h6,
+.fa-header-font {
   @include fa_header_font;
 }
 
-h1, h2 {
-  font-weight: 700;
-}
+h1, h2, .fa-h1, .fa-h2 { font-weight: 700;    }
+h3, h4, .fa-h3, .fa-h4 { font-weight: 400;    }
+h5, h6, .fa-h5, .fa-h6 { font-weight: 300;    }
+h1, .fa-h1             { font-size:   2.5rem;  }
+h2, .fa-h2             { font-size:   2rem;    }
+h3, .fa-h3             { font-size:   1.75rem; }
+h4, .fa-h4             { font-size:   1.5rem;  }
+h5, .fa-h5             { font-size:   1.35rem; }
+h6, .fa-h6             { font-size:   1.15rem; }
 
-h3, h4 {
-  font-weight: 400;
-}
-
-h5, h6 {
-  font-weight: 300;
-}
-
-h1 {
-  font-size: 2.5em;
-}
-
-h2 {
-  font-size: 2em;
-}
-
-h3 {
-  font-size: 1.75em;
-}
-
-h4 {
-  font-size: 1.5em;
-}
-
-h5 {
-  font-size: 1.35em;
-}
-
-h6 {
-  font-size: 1.15em;
-}
-
-main *,
-article * {
+.fa-body-font {
   @include fa_body_font;
 }
 
@@ -67,35 +46,49 @@ blockquote,
            );
 }
 
-.fa-info-box {
-  @include fa_info_box;
+section,
+aside {
+  &.fa-info-box {
+    @include fa_info_box(
+               $icon_name:  'flag',
+               $icon_color: 'teal_2'
+             );
+  }
+
+  &.fa-success-box {
+    @include fa_info_box(
+               $icon_name:  'check_circle',
+               $icon_color: 'green_2',
+               $fill:   $fa_green_3,
+               $color:  $fa_green_1,
+               $border: $fa_green_2
+             );
+  }
+
+  &.fa-warn-box {
+    @include fa_info_box(
+               $icon_name:  'alert_circle',
+               $icon_color: 'orange_2',
+               $fill:   $fa_orange_3,
+               $color:  $fa_orange_1,
+               $border: $fa_orange_2
+             );
+  }
+
+  &.fa-error-box {
+    @include fa_info_box(
+               $icon_name:  'cancel',
+               $icon_color: 'red_2',
+               $fill:   $fa_red_3,
+               $color:  $fa_red_1,
+               $border: $fa_red_2
+             );
+  }
 }
 
-.fa-success-box {
-  @include fa_info_box(
-             $icon:   'check_circle__green_2.svg',
-             $fill:   $fa_green_3,
-             $color:  $fa_green_1,
-             $border: $fa_green_2
-           );
-}
+figcaption,
+.fa-figcaption {
 
-.fa-warn-box {
-  @include fa_info_box(
-             $icon:   'alert_circle__orange_2.svg',
-             $fill:   $fa_orange_3,
-             $color:  $fa_orange_1,
-             $border: $fa_orange_2
-           );
-}
-
-.fa-error-box {
-  @include fa_info_box(
-             $icon:   'cancel__red_2.svg',
-             $fill:   $fa_red_3,
-             $color:  $fa_red_1,
-             $border: $fa_red_2
-           );
 }
 
 a,
@@ -131,4 +124,37 @@ ol,
 ul,
 .fa-ul {
 
+}
+
+.fa-tag {
+  @include fa_tag;
+
+  @each $name in $fa_color_names {
+    @if fa_get_contrast($name) {
+      &-#{$name} {
+          @include fa_tag(
+                     $fill:  fa_get_color($name),
+                     $color: fa_get_contrast($name)
+                   );
+      }
+    }
+  }
+}
+
+@media (max-width: #{$fa_width_small}) {
+  h1, .fa-h1 { font-size:   2rem;    }
+  h2, .fa-h2 { font-size:   1.75rem; }
+  h3, .fa-h3 { font-size:   1.5rem;  }
+  h4, .fa-h4 { font-size:   1.35rem; }
+  h5, .fa-h5 { font-size:   1.25rem; }
+  h6, .fa-h6 { font-size:   1.15rem; }
+}
+
+@media (max-width: #{$fa_width_tiny}) {
+  h1, .fa-h1 { font-size:   1.75rem;  }
+  h2, .fa-h2 { font-size:   1.5rem;   }
+  h3, .fa-h3 { font-size:   1.35rem;  }
+  h4, .fa-h4 { font-size:   1.25rem;  }
+  h5, .fa-h5 { font-size:   1.175rem; }
+  h6, .fa-h6 { font-size:   1.1rem;   }
 }

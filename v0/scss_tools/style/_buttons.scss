@@ -1,39 +1,44 @@
-@mixin fa_button($icon:      false,
-                 $fill:      $fa_main_3,
-                 $border:    transparent,
-                 $color:     #FFF,
-                 $position:  left,
-                 $icon_root: $fa_icon_root,
-                 $icon_size: 1.5em) {
+@mixin fa_button($icon_name:    false,
+                 $fill_name:    'main_3',
+                 $border:       0.2rem solid,
+                 $border_color: transparent,
+                 $position:     left,
+                 $icon_width:   auto,
+                 $icon_height:  1.5em,
+                 $icon_root:    $fa_icon_root) {
 
   @include fa_main_font;
 
-  display: inline-block;
-  padding: 0.35em 0.85em;
-  background-color: $fill;
-  border: 1px solid $border;
-  border-radius: 0.1em;
+  display:          inline-block;
+  padding:          0.35em 0.85em;
+  background-color: fa_get_color($fill_name, $err: true);
+  border:           $border_color $border;
+  border-radius:    0.1em;
 
-  font-size: 0.85em;
-  font-weight: normal;
-  color: $color;
-  line-height: 1.5;
-  text-align: center;
-  vertical-align: middle;
-  white-space: nowrap;
+  font-size:       0.85em;
+  font-weight:     normal;
+  color:           fa_get_contrast_color($fill_name, $err: true);
+  line-height:     1.5;
+  text-align:      center;
+  vertical-align:  middle;
+  white-space:     nowrap;
+  text-decoration: none;
+  text-shadow:     none;
 
-  cursor: pointer;
+  cursor:              pointer;
   -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  -moz-user-select:    none;
+  -ms-user-select:     none;
+  user-select:         none;
 
-  @if $icon {
-    @include fa_background_icon(
-      $icon:      $icon,
-      $position:  $position,
-      $size:      $icon_size,
-      $icon_root: $icon_root
+  @if $icon_name {
+    @include fa_pseudo_icon(
+      $icon_name:  $icon_name,
+      $icon_color: fa_get_contrast_name($fill_name, $err: true),
+      $position:   $position,
+      $width:      $icon_width,
+      $height:     $icon_height,
+      $icon_root:  $icon_root
     );
   }
 }
