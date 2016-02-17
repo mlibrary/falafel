@@ -3,14 +3,15 @@
                  $border:       0.2rem solid,
                  $border_color: transparent,
                  $position:     left,
-                 $icon_width:   auto,
-                 $icon_height:  1.5em,
+                 $icon_size:    1.5em,
                  $icon_root:    $fa_icon_root) {
 
   @include fa_main_font;
 
+  $side_padding: 0.85em;
+
   display:          inline-block;
-  padding:          0.35em 0.85em;
+  padding:          0.35em $side_padding;
   background-color: fa_get_color($fill_name, $err: true);
   border:           $border_color $border;
   border-radius:    0.1em;
@@ -32,13 +33,15 @@
   user-select:         none;
 
   @if $icon_name {
-    @include fa_pseudo_icon(
+    @include fa_background_icon(
       $icon_name:  $icon_name,
       $icon_color: fa_get_contrast_name($fill_name, $err: true),
-      $position:   $position,
-      $width:      $icon_width,
-      $height:     $icon_height,
+      $width:      $icon_size,
+      $horizontal: $position,
+      $h_nudge:    $side_padding / 2,
       $icon_root:  $icon_root
     );
+
+    padding-#{$position}: $side_padding + $icon_size;
   }
 }

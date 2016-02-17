@@ -31,7 +31,7 @@
 
   $width:  if($width,  $width,  auto);
   $height: if($height, $height, auto);
-  $size:   null;
+  $size:   false;
 
   @if type-of($height) == number and type-of($width) == number {
     $size: max($width, $height);
@@ -55,10 +55,6 @@
                $icon_color: $icon_color,
                $width:      $width,
                $height:     $height,
-               $horizontal: center,
-               $h_nudge:    0,
-               $vertical:   center,
-               $v_nudge:    0,
                $icon_root:  $fa_icon_root
              );
 
