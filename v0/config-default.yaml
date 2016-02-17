@@ -97,9 +97,9 @@ colors:
 
 scss_variables:
   fa_icon_root:
-    "http://fultonis.www.lib.umich.edu/falafel/v0/compiled/icons/"
+    "http://www.lib.umich.edu/falafel/icons/"
   fa_font_root:
-    "http://fultonis.www.lib.umich.edu/falafel/v0/fonts/"
+    "http://www.lib.umich.edu/falafel/fonts/"
 
   fa_width_large: 75em
   fa_width_small: 55em
