@@ -28,11 +28,13 @@ end
 def task_with_modes name, params: [], needs: []
   task name, (params << :mode) => needs do |task_obj, args|
     @mode = args[:mode]
-    yield task_obj, args
+    yield task_obj, args if block_given?
   end
 end
 
-task_with_modes :default, needs: [:init, :fonts, :graphics, :scss, :css, :icons, :docs]
+task_with_modes :default, needs: [:noicons, :icons]
+
+task_with_modes :noicons, needs: [:init, :fonts, :graphics, :scss, :css, :docs]
 
 task_with_modes :init do
   puts "Initializing directories ..."
