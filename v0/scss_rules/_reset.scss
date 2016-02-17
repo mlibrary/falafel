@@ -111,8 +111,8 @@ $fa_block_tags: div, object, iframe,
                 article, aside, canvas, details, figcaption, figure,
                 footer, header, hgroup, menu, nav, section, summary;
 
-#{$fa_block_tags} {
-  & + * {
+* + {
+  #{$fa_block_tags} {
     margin-top: 1rem;
   }
 }
