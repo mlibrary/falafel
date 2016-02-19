@@ -45,7 +45,8 @@ task_with_modes :init do
             'compiled/css',
             'compiled/graphics',
             'compiled/fonts'
-          ]
+          ],
+          verbose: false
 end
 
 task_with_modes :fonts, needs: [:init] do
@@ -301,7 +302,7 @@ def copy_and_clean(name)
   puts "Copying #{name} ..."
   files = FileList.new("#{name}/**/*")
 
-  cp_r files, "compiled/#{name}"
+  cp_r files, "compiled/#{name}", verbose: false
   cleanup(name, *files.map { |path| "compiled/#{path}" })
 end
 
