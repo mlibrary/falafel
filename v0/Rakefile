@@ -39,23 +39,22 @@ task_with_modes :noicons, needs: [:init, :fonts, :graphics, :scss, :css, :docs]
 task_with_modes :init do
   puts "Initializing directories ..."
 
-  setup_directorys(
-    'compiled/icons',
-    'compiled/scss',
-    'compiled/css',
-    'compiled/graphics',
-    'compiled/fonts'
-  )
+  mkdir_p [
+            'compiled/icons',
+            'compiled/scss',
+            'compiled/css',
+            'compiled/graphics',
+            'compiled/fonts'
+          ]
 end
 
 task_with_modes :fonts, needs: [:init] do
-  puts 'Copying fonts ...'
-  cp_r FileList.new('fonts/*'), 'compiled/fonts'
+  # TODO: Something is screwy with how fonts are being copied and removed
+  copy_and_clean :fonts
 end
 
 task_with_modes :graphics, needs: [:init] do
-  puts 'Copying graphics ...'
-  cp_r FileList.new('graphics/*'), 'compiled/graphics'
+  copy_and_clean :graphics
 end
 
 task_with_modes :scss, needs: [:init] do
@@ -67,7 +66,7 @@ task_with_modes :scss, needs: [:init] do
                                  .join("\n")
   )
 
-  cleanup('compiled/scss/*', SCSSToolsLocation)
+  cleanup(:scss, SCSSToolsLocation)
 end
 
 task_with_modes :css, needs: [:init, :scss] do
@@ -98,7 +97,7 @@ task_with_modes :css, needs: [:init, :scss] do
     )
   end
 
-  cleanup('compiled/css/*', *edited)
+  cleanup(:css, *edited)
 end
 
 task_with_modes :icons, needs: [:init] do
@@ -164,7 +163,7 @@ task_with_modes :icons, needs: [:init] do
                   .join(("\n" * 3) + ("#" * 80) + ("\n" * 3))
   )
 
-  cleanup('compiled/icons/*', *edited)
+  cleanup(:icons, *edited)
 end
 
 task_with_modes :docs, needs: [:init] do
@@ -197,16 +196,16 @@ def loading_message(message, fraction)
         "%\033[0m"
 end
 
-def cleanup(path, *edited)
+def cleanup(location, *edited)
   puts 'Checking for old files ...'
 
-  leftovers = Rake::FileList.new(path) - edited
+  leftovers = Rake::FileList.new("compiled/#{location}/**/*") - edited
 
   if leftovers.empty?
     puts 'No old files to delete'
   else
     slice_size = 100
-    message    = 'Deleting old icons'
+    message    = 'Deleting old files'
 
     start_loading_message message
 
@@ -232,22 +231,16 @@ def finish_loading_message(message)
   print "\n"
 end
 
-def setup_directorys(*paths)
-  paths.each { |path| mkdir_p path }
-end
-
 def get_config
-  @config ||= YAML.load(File.read('config-default.yaml'))
+  @config ||= YAML.load(File.read('config_default.yaml'))
                   .tap do |default_config|
-                    config_merge! default_config, 'config-before.yaml'
+                    config_merge! default_config, 'config_before.yaml'
 
                     if @mode == 'dev'
-                      config_merge! default_config, 'config-development.yaml'
-                    else
-                      config_merge! default_config, 'config-production.yaml'
+                      config_merge! default_config, 'config_development.yaml'
                     end
 
-                    config_merge! default_config, 'config-after.yaml'
+                    config_merge! default_config, 'config_after.yaml'
                   end
 end
 
@@ -304,8 +297,18 @@ def tools_scss_list
   Rake::FileList.new(*get_config['scss_tools_order'])
 end
 
+def copy_and_clean(name)
+  puts "Copying #{name} ..."
+  files = FileList.new("#{name}/**/*")
+
+  cp_r files, "compiled/#{name}"
+  cleanup(name, *files.map { |path| "compiled/#{path}" })
+end
+
 class Hash
   def deep_merge!(other)
+    # TODO: Use recursive call instead?
+    # This was copied from terrible code on StackOverflow
     merger = proc do |key, obj1, obj2|
                if obj1.is_a?(Hash) && obj2.is_a?(Hash)
                  obj1.merge(obj2, &merger)

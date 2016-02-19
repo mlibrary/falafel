@@ -110,8 +110,10 @@ scss_tools_order:
   - scss_tools/style/**/*.scss
 
 scss_rules_order:
-  style:
+  falafel:
     - scss_rules/_reset.scss
     - scss_rules/style/_font.scss
     - scss_rules/style/_text.scss
     - scss_rules/style/_buttons.scss
+  falafel_fonts:
+    - scss_rules/style/_font.scss
