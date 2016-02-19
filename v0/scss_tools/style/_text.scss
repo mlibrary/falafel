@@ -79,9 +79,12 @@
 }
 
 @mixin fa_tag($fill: $fa_main_3, $color: $fa_contrast_main_3) {
+  @include fa_tag_font;
+
   display: inline-block;
-  padding: 0.2rem 0.3rem;
-  margin: 0;
+  padding: 0.2rem 0.4rem;
+  position: relative;
+  bottom: 0.2rem;
 
   background-color: $fill;
   border-radius: 0.2rem;

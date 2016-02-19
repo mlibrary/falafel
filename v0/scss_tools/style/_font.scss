@@ -50,7 +50,7 @@
   }
 }
 
-@mixin fa_main_font {
+@mixin __fa_sans {
   font-family: "Helvetica Neue",
                Helvetica,
                "Liberation Sans",
@@ -60,17 +60,7 @@
                sans-serif;
 }
 
-@mixin fa_body_font {
-  font-family: "PT Serif",
-               "DejaVu Serif",
-               "Bitstream Vera Serif",
-               "Liberation Serif",
-               Georgia,
-               serif;
-}
-
-@mixin fa_header_font {
-  line-height: 1.2em;
+@mixin __fa_sans_big {
   font-family: "Open Sans",
                "Helvetica Neue",
                Helvetica,
@@ -81,7 +71,7 @@
                sans-serif;
 }
 
-@mixin fa_site_header_font {
+@mixin __fa_serif {
   font-family: "PT Serif",
                "DejaVu Serif",
                "Bitstream Vera Serif",
@@ -90,7 +80,7 @@
                serif;
 }
 
-@mixin fa_small_font {
+@mixin __fa_serif_small {
   font-family: "PT Caption",
                "DejaVu Serif",
                "Bitstream Vera Serif",
@@ -98,3 +88,28 @@
                Georgia,
                serif;
 }
+
+@mixin fa_main_font {
+  @include __fa_sans;
+}
+
+@mixin fa_body_font {
+  @include __fa_serif;
+}
+
+@mixin fa_header_font {
+  @include __fa_sans_big;
+}
+
+@mixin fa_site_header_font {
+  @include __fa_serif;
+}
+
+@mixin fa_small_font {
+  @include __fa_serif_small;
+}
+
+@mixin fa_tag_font {
+  @include __fa_sans;
+}
+
