@@ -81,6 +81,15 @@
                sans-serif;
 }
 
+@mixin fa_site_header_font {
+  font-family: "PT Serif",
+               "DejaVu Serif",
+               "Bitstream Vera Serif",
+               "Liberation Serif",
+               Georgia,
+               serif;
+}
+
 @mixin fa_small_font {
   font-family: "PT Caption",
                "DejaVu Serif",
