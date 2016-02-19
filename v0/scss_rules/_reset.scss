@@ -105,14 +105,16 @@ input, select {
   vertical-align: middle;
 }
 
-$fa_block_tags: div, object, iframe,
-                h1, h2, h3, h4, h5, h6, p, blockquote, pre,
-                dl, ol, ul, fieldset, form, label, legend,
-                article, aside, canvas, details, figcaption, figure,
-                footer, header, hgroup, menu, nav, section, summary;
+// This rule should only be applied when you add a class.
+// Something like fa-block-spacing
+// $fa_block_tags: div, object, iframe,
+//                 h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+//                 dl, ol, ul, fieldset, form, label, legend,
+//                 article, aside, canvas, details, figcaption, figure,
+//                 footer, header, hgroup, menu, nav, section, summary;
 
-* + {
-  #{$fa_block_tags} {
-    margin-top: 1rem;
-  }
-}
+// * + {
+//   #{$fa_block_tags} {
+//     margin-top: 1rem;
+//   }
+// }
