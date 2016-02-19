@@ -37,7 +37,7 @@ task_with_modes :default, needs: [:noicons, :icons]
 task_with_modes :noicons, needs: [:init, :fonts, :graphics, :scss, :css, :docs]
 
 task_with_modes :init do
-  puts "Initializing directories ..."
+  puts "Initializing directories"
 
   mkdir_p [
             'compiled/icons',
@@ -59,7 +59,7 @@ task_with_modes :graphics, needs: [:init] do
 end
 
 task_with_modes :scss, needs: [:init] do
-  puts "Creating scss files ..."
+  puts "Creating scss files"
 
   overwrite(
     SCSSToolsLocation,
@@ -74,7 +74,7 @@ task_with_modes :css, needs: [:init, :scss] do
   edited = []
 
   get_config['scss_rules_order'].each do |name, source_paths|
-    puts "Compiling #{name}.css ..."
+    puts "Compiling #{name}.css"
 
     new_path = "compiled/css/#{name}.css"
     edited << new_path
@@ -121,7 +121,7 @@ task_with_modes :icons, needs: [:init] do
 
                colors.each do |color_name, color_data|
 
-                 # Edit each SVG to include the proper color and remove comments...
+                 # Edit each SVG to include the proper color and remove comments
 
                  svg.xpath('//*[@fill] | //*[@stroke]').each do |element|
                    element['fill']   = color_data['color'] if element['fill']
@@ -156,7 +156,7 @@ task_with_modes :icons, needs: [:init] do
 
   finish_loading_message message
 
-  puts "Copying license files ..."
+  puts "Copying license files"
   overwrite(
     'compiled/icons/licenses.txt',
     Rake::FileList.new('icons/source/**/license.txt')
@@ -168,7 +168,7 @@ task_with_modes :icons, needs: [:init] do
 end
 
 task_with_modes :docs, needs: [:init] do
-  puts "One day we will have docs to compile ..."
+  puts "One day we will have docs to compile"
 end
 
 ####################
@@ -198,7 +198,7 @@ def loading_message(message, fraction)
 end
 
 def cleanup(location, *edited)
-  puts 'Checking for old files ...'
+  puts 'Checking for old files'
 
   leftovers = Rake::FileList.new("compiled/#{location}/**/*") - edited
 
@@ -299,7 +299,7 @@ def tools_scss_list
 end
 
 def copy_and_clean(name)
-  puts "Copying #{name} ..."
+  puts "Copying #{name}"
   files = FileList.new("#{name}/**/*")
 
   cp_r files, "compiled/#{name}", verbose: false
