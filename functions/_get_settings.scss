@@ -1,0 +1,85 @@
+@function fa_get_setting($map, $first_key: DEFAULT, $other_keys...) {
+  $output: null;
+  $found:  append((), map_get($map, $first_key));
+
+  @each $key in $other_keys {
+    $last: nth($found, -1);
+
+    @if type_of($last) == map {
+      $found: append($found, map_get($last, $key));
+    }
+  }
+
+  @while ($output == null) and (length($output) != 0) {
+    $last: _fa_unwrap_delayed($map, nth($found, -1));
+
+    @if length($found) == 1 {
+      $found: ();
+    } @else {
+      $found: _fa_slice($found, 1, -2);
+    }
+
+    @if type_of($last) == map {
+      $output: map_get($last, DEFAULT);
+    } @else {
+      $output: $last;
+    }
+  }
+
+  @if $output == null {
+    @error "Unable to find #{join($first_key, $other_keys)}";
+  } @else {
+    @return $output;
+  }
+}
+
+@function _fa_unwrap_delayed($map, $value) {
+  @if (type_of($value) == list) and (nth($value, 1) == __DELAYED__) {
+    @return _fa_unwrap_delayed($map, fa_get_setting($map, nth($value, 2)...));
+  } @else {
+    @return $value;
+  }
+}
+
+@function SAME_AS($keys...) {
+   @return (__DELAYED__ $keys);
+}
+
+@function fa_color($keys...) {
+  @return fa_get_setting($fa_colors, $keys...);
+}
+
+@function fa_size($keys...) {
+  @return fa_get_setting($fa_sizes, $keys...);
+}
+
+@function fa_type($keys...) {
+  @return fa_get_setting($fa_type, $keys...);
+}
+
+
+@function fa_get_setting_map($map, $keys...) {
+  $found: null;
+  $error: "unable to find #{$first_key, $keys...}"
+
+  @each $key in $other_keys {
+    $found: map_get($key, $found);
+    @if not $found { @error $error }
+  }
+
+  @if not $found { @error $error }
+
+  @return $found;
+}
+
+@function fa_color_map($keys...) {
+  @return fa_get_setting_map($fa_colors, $keys...);
+}
+
+@function fa_size_map($keys...) {
+  @return fa_get_setting_map($fa_sizes, $keys...);
+}
+
+@function fa_type_map($keys...) {
+  @return fa_get_setting_map($fa_type, $keys...);
+}
