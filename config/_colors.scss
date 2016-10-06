@@ -1,0 +1,121 @@
+$fa_colors: (
+  //// Static Colors
+  ////   - These colors are named based on WHAT COLOR THEY ARE.
+  ////   - These SHOULD NOT be altered since someone using them will expect them
+  ////     to be a specific color.
+
+  um: (
+    yellow: #FFCB05,
+    blue:   #00274C,
+  ),
+
+  gray: (
+    1: #333,
+    2: #4E4E4E,
+    3: #6E6E6E,
+    4: #CCC,
+    5: #E5E5E5,
+    6: #FAFAFA,
+  ),
+
+  blue: (
+    1: #00274C,
+    2: #0C5292,
+    3: #126DC1,
+    4: #CCE6FF,
+    5: #E6F3FF,
+    6: #F2F9FF,
+  ),
+
+  green: (
+    DEFAULT: #05A657,
+    dark:    #057C42,
+    light:   #E2F4EB,
+  ),
+
+  orange: (
+    DEFAULT: #E77504,
+    dark:    #AA5600,
+    light:   #FFEEDD,
+  ),
+
+  red: (
+    DEFAULT: #ED5D47,
+    dark:    #C53B26,
+    light:   #FFEAE7,
+  ),
+
+  teal: (
+    DEFAULT: #E77504,
+    dark:    #AA5600,
+    light:   #FFEEDD,
+  ),
+
+  //// Relative Colors
+  ////   - These colors are named based on HOW they are used.
+  ////   - These should be altered whenever a user of Falafel wants to change up
+  ////     how Falafel looks.
+
+  // Basics
+  main: (
+    1: SAME_AS(blue, 1),
+    2: SAME_AS(blue, 2),
+    3: SAME_AS(blue, 3),
+    4: SAME_AS(blue, 4),
+    5: SAME_AS(blue, 5),
+    6: SAME_AS(blue, 6),
+  ),
+
+  success: (
+    DEFAULT: SAME_AS(green),
+    dark:    SAME_AS(green, dark),
+    light:   SAME_AS(green, light),
+  ),
+
+  warn: (
+    DEFAULT: SAME_AS(orange),
+    dark:    SAME_AS(orange, dark),
+    light:   SAME_AS(orange, light),
+  ),
+
+  error: (
+    DEFAULT: SAME_AS(red),
+    dark:    SAME_AS(red, dark),
+    light:   SAME_AS(red, light),
+  ),
+
+  notice: (
+    DEFAULT: SAME_AS(teal),
+    dark:    SAME_AS(teal, dark),
+    light:   SAME_AS(teal, light),
+  ),
+
+  background: (
+    DEFAULT: transparent,
+    button: (
+      DEFAULT:  SAME_AS(main, 3),
+      hover:    SAME_AS(main, 2),
+      focus:    SAME_AS(main, 2),
+      active:   SAME_AS(main, 2),
+      disabled: SAME_AS(gray, 6),
+    ),
+  ),
+
+  color: (
+    DEFAULT: SAME_AS(gray, 1),
+    button: (
+      DEFAULT:  #FFF,
+      focus:    SAME_AS(gray, 6),
+      active:   SAME_AS(gray, 6),
+      disabled: SAME_AS(gray, 3),
+    ),
+  ),
+
+  border_color: (
+    DEFAULT: transparent,
+    button: (
+      DEFAULT:  transparent,
+      disabled: SAME_AS(gray, 5),
+    )
+  ),
+);
