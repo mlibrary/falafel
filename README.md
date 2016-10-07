@@ -28,4 +28,7 @@ You'll need `npm` to install Gulp and then `browser-sync` and `gulp-sass` for Gu
 $ gulp
 ```
 
+### Contact
+Email Jon Earley at earleyj@umich.edu if you have any questions.
+
 
