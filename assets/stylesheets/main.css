@@ -52,12 +52,16 @@ html {
 *, *:before, *:after {
   box-sizing: inherit; }
 
-.page-container {
-  max-width: 38rem;
-  margin: 0 auto; }
+.container {
+  max-width: 44rem;
+  margin: 0 auto;
+  padding: 0 1rem; }
 
 .container-fluid {
   padding: 0 1rem; }
+
+.container-max-width {
+  max-width: 88rem; }
 
 /*
   Site
@@ -110,7 +114,8 @@ p {
 
 a {
   color: #126DC1;
-  text-decoration: none; }
+  text-decoration: none;
+  cursor: pointer; }
 
 a:hover {
   text-decoration: underline; }
@@ -131,8 +136,7 @@ ul {
 
 li {
   padding-left: 1rem;
-  margin-top: 1rem;
-  font-family: "PT Serif", serif; }
+  margin-top: 1rem; }
 
 dl {
   margin-top: 1rem;
@@ -284,6 +288,17 @@ textarea {
   border-radius: 4px;
   cursor: pointer; }
 
+nav {
+  display: inline-block; }
+
+.navigation-list {
+  margin: 0;
+  padding: 0; }
+
+.navigation li {
+  display: inline-block;
+  margin-top: 0.5rem; }
+
 .alert {
   margin: 2rem 0;
   padding: 1rem;
@@ -370,6 +385,28 @@ footer {
 .white-text {
   color: white; }
 
+.right {
+  float: right; }
+
+.clearfix:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0; }
+
+.clearfix {
+  display: inline-block; }
+
+/* start commented backslash hack \*/
+* html .clearfix {
+  height: 1%; }
+
+.clearfix {
+  display: block; }
+
+/* close commented backslash hack */
 .container-fluid,
 .container {
   margin-right: auto;

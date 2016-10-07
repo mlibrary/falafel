@@ -1,8 +1,13 @@
-.page-container {
-  max-width: 38rem;
+.container {
+  max-width: 44rem;
   margin: 0 auto;
+  padding: 0 1rem;
 }
 
 .container-fluid {
   padding: 0 1rem;
+}
+
+.container-max-width {
+  max-width: 88rem;
 }
