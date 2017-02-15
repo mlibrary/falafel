@@ -1,5 +1,5 @@
 # Falafel
-Base CSS styling and a grid system to get you started with U-M Library colors and typography.
+Base CSS styling and a grid system to get you started with U-M Library typography, form elements, and colors.
 
 ## Preview
 
