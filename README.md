@@ -7,12 +7,12 @@ Base CSS to get you started with U-M Library typography, form elements, and colo
 
 ## Getting Started
 
-###1. Clone Falafel
+### 1. Clone Falafel
 ```sh
 $ git clone https://github.com/mlibrary/falafel.git
 ```
 
-###2. Install Gulp
+### 2. Install Gulp
 ```sh
 $ npm install --global gulp-cli
 ```
@@ -23,7 +23,7 @@ You'll need `npm` to install Gulp and then `browser-sync` and `gulp-sass` for Gu
 - https://www.browsersync.io/#install
 - https://www.npmjs.com/package/gulp-sass
 
-###3. Run Falafel
+### 3. Run Falafel
 ```sh
 $ gulp
 ```
