@@ -1,5 +1,5 @@
 # Falafel
-Base CSS to get you started with U-M Library typography, form elements, and colors.
+A limited base set of CSS to get you started with U-M Library typography, form elements, and colors. This is not a front-end framework.
 
 ## Preview
 
