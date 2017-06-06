@@ -20,38 +20,36 @@
     </div>
 
     <header>
-      <div class="site-header">
-        <div class="container-fluid">
-          <a href="http://umich.edu" class="site-brand-umich-block-m-logo">
-            <img src="assets/images/umich_block_m.png" alt="Go to the University of Michigan homepage">
-          </a>
-          <a href="http://lib.umich.edu" class="site-brand-mlibrary-logo">
-            <img src="assets/images/mlibrary_logo.png" alt="Go to the University of Michigan Library homepage">
-          </a>
-          <nav class="navigation right">
-            <ul class="navigation-list">
-              <li>
-                <a href="http://github.com/mlibrary/falafel/" class="white-text">Falafel on GitHub</a>
-              </li>
-              <li>
-                <a href="/markdown.html" class="white-text">Try Markdown</a>
-              </li>
-            </ul>
-          </nav>
-          <div class="clearfix"></div>
-        </div>
+      <div class="site-header-container">
+        <ul class="site-header-list">
+          <li>
+            <a href="umich.edu">
+              <img src="assets/images/umich_block_m.png" alt="Go to the University of Michigan homepage." class="header-logo-image">
+            </a>
+          </li>
+          <li class="light-text">
+            Library
+          </li>
+          <li>
+            Falafel
+          </li>
+        </ul>
+        <nav class="header-navigation">
+          <ul class="header-navigation-list">
+            <li><a href="http://github.com/mlibrary/falafel/">GitHub</a></li>
+            <li><a href="">Hello</a></li>
+            <li><a href="">World</a></li>
+          </ul>
+        <nav>
       </div>
     </header>
 
     <div class="callout">
       <div class="container">
-        <h1 class="no-margin">U-M Library Front End Framework</h1>
-
+        <h1 class="no-margin">U-M Library base CSS</h1>
         <p>
-          A limited version of Falafel with basic CSS styling.
+          A limited base set of CSS to get you started with U-M Library typography, form elements, and colors. This is not a front-end framework.
         </p>
-
-        <a href="markdown.html" class="button">Try Markdown</a>
       </div>
     </div>
 
@@ -306,6 +304,12 @@
     </div>
 
     <footer>
+      <div class="container footer-container">
+        <span>
+          <img src="assets/images/umich_block_m.png" alt="The University of Michigan block M" class="footer-logo-image">
+        </span>
+        <p class="footer-text">Powered by the University of Michigan Library</p>
+      </div>
     </footer>
   </body>
 </html>

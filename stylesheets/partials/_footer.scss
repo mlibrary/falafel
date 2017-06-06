@@ -3,3 +3,18 @@ footer {
   padding: 2rem 0;
   margin-top: 3rem;
 }
+
+.footer-container {
+  display: flex;
+  align-items: center;
+}
+
+.footer-logo-image {
+  max-width: 4rem;
+  margin-right: 1rem;
+}
+
+.footer-text {
+  margin: 0;
+  color: white;
+}
