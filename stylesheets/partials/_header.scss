@@ -1,10 +1,6 @@
-header {
-  background: $main-1;
-  padding: 1rem 0;
-}
-
 .site-header-container {
-  padding: 0 1rem;
+  background: $main-1;
+  padding: 1rem;
 
   @media (min-width: 52rem) {
     display: flex;
@@ -74,6 +70,90 @@ header {
 
     & > a {
       color: white;
+    }
+  }
+}
+
+/*
+<header class="header-alt">
+  <div class="header-container-alt">
+    <a href="umich.edu">
+      <img src="assets/images/umich_block_m.png" alt="Go to the University of Michigan homepage." class="header-logo-image">
+    </a>
+    <div class="header-title-container-alt">
+      <h1 class="header-alt-title">Falafel</h1>
+      <p class="header-alt-subtitle">
+        A base set of CSS with typography, form elements, and colors.
+      </p>
+    </div>
+  </div>
+  <nav class="header-navigation-alt">
+    <ul class="header-navigation-list-alt">
+      <li><a href="http://github.com/mlibrary/falafel/">GitHub</a></li>
+      <li><a href="">Hello</a></li>
+      <li><a href="">World</a></li>
+    </ul>
+  <nav>
+</header>
+*/
+
+.header-alt {
+  background: $main-1;
+  padding: 1rem;
+}
+
+.header-logo-image-alt {
+  max-height: 3rem;
+  margin-right: 1rem;
+}
+
+.header-container-alt {
+  display: flex;
+  align-content: center;
+}
+
+.header-title-container-alt {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.header-alt-title {
+  margin: 0;
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 600;
+  color: white;
+}
+
+.header-alt-subtitle {
+  margin: 0;
+  line-height: 1.4;
+  color: white;
+  margin-top: 0.2rem;
+  font-weight: 300;
+}
+
+.header-navigation-alt {
+  background: $main-5;
+}
+
+.header-navigation-list-alt {
+  margin: 0;
+  padding: 0;
+  padding-left: 0.5rem;
+  list-style: none;
+
+  & > li {
+    margin: 0;
+    padding: 0;
+    display: inline-block;
+
+    & > a {
+      display: inline-block;
+      padding: 1rem 0.5rem;
+      text-decoration: underline;
+      line-height: 1;
     }
   }
 }
