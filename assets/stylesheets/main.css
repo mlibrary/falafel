@@ -1,3 +1,4 @@
+@charset "UTF-8";
 /* http://meyerweb.com/eric/tools/css/reset/
    v2.0 | 20110126
    License: none (public domain)
@@ -68,7 +69,7 @@ html {
 */
 body {
   line-height: 1.7;
-  font-size: 1.1rem;
+  font-size: 1rem;
   font-family: "Open Sans", sans-serif;
   color: #333; }
 
@@ -188,7 +189,7 @@ label {
   font-weight: 700; }
 
 input[type="text"] {
-  font-size: 1.1rem;
+  font-size: 1rem;
   border: solid 1px rgba(0, 0, 0, 0.3);
   box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
   border-radius: 4px;
@@ -248,7 +249,7 @@ textarea {
   padding-bottom: 0.55rem;
   background: #126DC1;
   color: #fff;
-  font-size: 1.1rem;
+  font-size: 1rem;
   border: none;
   border-radius: 4px;
   border-bottom: 3px solid #0C5292;
@@ -324,6 +325,41 @@ nav {
 
 .alert *:first-child {
   margin: 0; }
+
+.site-message-warning {
+  background: #FFEEDD;
+  border-bottom: solid 2px #E77504; }
+
+.site-message-info {
+  background: #F2F9FF;
+  border-bottom: solid 2px #CCE6FF; }
+
+.site-message {
+  position: relative;
+  padding-right: 6rem;
+  padding: 0.5rem 0; }
+  .site-message p {
+    margin: 0;
+    text-align: center; }
+
+.site-message-dismiss {
+  /* remove button style */
+  border: none;
+  font-size: 100%;
+  background: none;
+  padding: 0;
+  /* continue */
+  position: absolute;
+  right: 1rem;
+  top: 0.6rem;
+  cursor: pointer;
+  line-height: 1.4; }
+  .site-message-dismiss span {
+    text-decoration: underline; }
+  .site-message-dismiss:after {
+    content: '✕';
+    padding-left: 0.5rem;
+    text-decoration: none; }
 
 .site-header {
   background: #00274C;
