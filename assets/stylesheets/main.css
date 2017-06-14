@@ -90,7 +90,7 @@ h3 {
   font-size: 1.5rem; }
 
 h4 {
-  font-size: 1.5rem; }
+  font-size: 1.25rem; }
 
 h3, h4 {
   font-weight: 400; }
@@ -99,7 +99,7 @@ h5 {
   font-size: 1.25rem; }
 
 h6 {
-  font-size: 1.25rem; }
+  font-size: 1.15rem; }
 
 h5, h6 {
   font-weight: 300; }
@@ -136,7 +136,7 @@ ul {
 
 li {
   padding-left: 1rem;
-  margin-top: 1rem; }
+  margin-top: 0.5rem; }
 
 dl {
   margin-top: 1rem;
@@ -175,7 +175,7 @@ strong, b {
 
 blockquote {
   font-family: "PT Serif", serif;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   padding-left: 1.5rem;
   border-left: solid 0.5rem #126DC1;
   margin: 2rem 0;
