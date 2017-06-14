@@ -99,7 +99,7 @@
 
 .header-alt {
   background: $main-1;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .header-logo-image-alt {
@@ -136,12 +136,12 @@
 
 .header-navigation-alt {
   background: $main-5;
+  margin-bottom: 2rem;
 }
 
 .header-navigation-list-alt {
   margin: 0;
-  padding: 0;
-  padding-left: 0.5rem;
+  padding: 0.5rem 0;
   list-style: none;
 
   & > li {
@@ -151,9 +151,15 @@
 
     & > a {
       display: inline-block;
-      padding: 1rem 0.5rem;
+      padding-right: 1rem;
+      padding-top: 0.5rem;
+      padding-bottom: 0.5rem;
       text-decoration: underline;
       line-height: 1;
+    }
+
+    &:first-child > a {
+      padding-left: 0;
     }
   }
 }

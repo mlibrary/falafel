@@ -14,11 +14,11 @@ body {
 */
 
 h1 {
-  font-size: 2.75rem;
+  font-size: 2rem;
 }
 
 h2 {
-  font-size: 2rem;
+  font-size: 1.5rem;
 }
 
 h1, h2 {
@@ -27,7 +27,7 @@ h1, h2 {
 }
 
 h3 {
-  font-size: 1.75rem;
+  font-size: 1.5rem;
 }
 
 h4 {
@@ -39,7 +39,7 @@ h3, h4 {
 }
 
 h5 {
-  font-size: 1.5rem;
+  font-size: 1.25rem;
 }
 
 h6 {
@@ -68,7 +68,6 @@ p {
 // Links
 a {
   color: $main-3;
-  text-decoration: none;
   cursor: pointer;
 }
 
@@ -145,6 +144,10 @@ td, th {
 th {
   text-align: left;
   color: $grey-3;
+}
+
+strong, b {
+  font-weight: $font-weight-bold;
 }
 
 // blockquote
