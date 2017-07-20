@@ -5,7 +5,13 @@
 }
 
 .container-fluid {
-  padding: 0 1rem;
+  margin: 0 auto;
+  padding: 0 10vw;
+  max-width: 120rem;
+
+  @media (max-width: 52rem) {
+    padding: 0 1rem;
+  }
 }
 
 .container-max-width {
